@@ -3,69 +3,720 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TimAudioMix</title>
+    <title>TimAudioMix – Mixing & Production</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg: #05060a;
+            --bg-alt: #0b0e17;
+            --accent: #ffb347;
+            --accent-soft: rgba(255, 179, 71, 0.15);
+            --text-main: #f5f5f5;
+            --text-muted: #a0a4b8;
+            --card-bg: #101321;
+            --border-soft: rgba(255,255,255,0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #000;
-            color: #fff;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex-direction: column;
-            background-size: cover;
-            background-position: center;
-            animation: fadeIn 1.5s ease-in-out;
+            font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at top left, #2a2f55 0, #05060a 45%, #05060a 100%);
+            color: var(--text-main);
+            min-height: 100vh;
         }
 
-        h1 {
-            font-size: 52px;
-            margin: 0;
-            letter-spacing: 2px;
-        }
-
-        p {
-            font-size: 20px;
-            opacity: 0.8;
-            margin: 10px 0 30px 0;
-        }
-
-        .buttons a {
+        a {
+            color: inherit;
             text-decoration: none;
-            color: #000;
-            background: #fff;
-            padding: 12px 25px;
-            border-radius: 6px;
-            font-size: 18px;
-            margin: 0 10px;
-            transition: 0.3s;
         }
 
-        .buttons a:hover {
-            background: #ffcc00;
-            transform: scale(1.05);
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* NAVBAR */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: linear-gradient(to bottom, rgba(5,6,10,0.96), rgba(5,6,10,0.85), transparent);
+            backdrop-filter: blur(16px);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px 6px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            font-size: 17px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            font-size: 14px;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.2s ease-out;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* HERO */
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+            gap: 28px;
+            align-items: center;
+            padding: 40px 0 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 14px;
+        }
+
+        .hero-highlight {
+            display: inline-block;
+            background: linear-gradient(120deg, #ffb347, #ff6f61);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+            max-width: 420px;
+            margin-bottom: 24px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .hero-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-soft);
+            color: var(--text-muted);
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: transform 0.12s ease-out, box-shadow 0.15s ease-out, background 0.15s ease-out, border-color 0.15s ease-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffb347, #ff6f61);
+            color: #05060a;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.02);
+            color: var(--text-main);
+            border-color: var(--border-soft);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.04);
+            transform: translateY(-1px);
+        }
+
+        .btn span {
+            font-size: 17px;
+        }
+
+        /* HERO SIDE CARD */
+        .hero-card {
+            background: radial-gradient(circle at top, rgba(255, 179, 71, 0.14), transparent 55%), var(--card-bg);
+            border-radius: 16px;
+            padding: 18px 18px 16px;
+            border: 1px solid var(--border-soft);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .hero-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .hero-card-title {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .hero-card-pill {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border: 1px solid rgba(255, 179, 71, 0.55);
+        }
+
+        .hero-card-line {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .hero-card-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+
+        .hero-card-genres span {
+            font-size: 11px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: var(--text-muted);
+        }
+
+        .hero-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .hero-card-meter {
+            width: 80px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-card-meter-fill {
+            position: absolute;
+            inset: 0;
+            width: 65%;
+            background: linear-gradient(90deg, #ffb347, #ff6f61);
+        }
+
+        /* SECTIONS COMMON */
+        section {
+            padding: 40px 0 10px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 14px;
+        }
+
+        .section-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 620px;
+        }
+
+        /* ABOUT */
+        #about .section-body {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 720px;
+            line-height: 1.7;
+        }
+
+        /* SERVICES */
+        .cards {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            padding: 16px 14px 14px;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .card-tagline {
+            font-size: 12px;
+            color: var(--accent);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .card-list {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .card-list li {
+            margin-left: 16px;
+            margin-bottom: 4px;
+        }
+
+        /* PORTFOLIO */
+        .portfolio-grid {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .track {
+            background: rgba(16, 19, 33, 0.9);
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            padding: 10px 11px;
+            font-size: 13px;
+        }
+
+        .track-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .track-role {
+            font-size: 11px;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .track a {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: underline;
+            text-decoration-color: rgba(160,164,184,0.6);
+        }
+
+        .track a:hover {
+            color: var(--accent);
+        }
+
+        /* CONTACT */
+        .contact-grid {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: minmax(0, 2.1fr) minmax(0, 2fr);
+            gap: 16px;
+            align-items: center;
+        }
+
+        .contact-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .contact-box {
+            background: var(--card-bg);
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            padding: 16px 14px 14px;
+            font-size: 13px;
+        }
+
+        .contact-label {
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .contact-main {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .contact-links a {
+            font-size: 13px;
+            padding: 7px 13px;
+            border-radius: 999px;
+            border: 1px solid var(--border-soft);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .contact-links a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 840px) {
+            .hero {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .hero-card {
+                order: -1;
+            }
+
+            .cards,
+            .portfolio-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .contact-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .page {
+                padding-inline: 14px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .cards,
+            .portfolio-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>TimAudioMix</h1>
-    <p>Music Producer • Mixing Engineer • Arranger</p>
+<header>
+    <nav class="nav">
+        <div class="logo">
+            TIM<span>AUDIO</span>MIX
+        </div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+</header>
 
-    <div class="buttons">
-        <a href="https://www.instagram.com/" target="_blank">Instagram</a>
-        <a href="mailto:your-email@gmail.com">Contact</a>
-        <a href="#" target="_blank">Portfolio</a>
-    </div>
+<div class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+        <div>
+            <h1 class="hero-title">
+                Mixing & production for
+                <span class="hero-highlight">modern, emotional music.</span>
+            </h1>
+            <p class="hero-subtitle">
+                TimAudioMix – mixing engineer, producer and arranger with classical background and 20+ years of performance experience on bayan & bandoneon.
+            </p>
+
+            <div class="hero-tags">
+                <span class="hero-tag">Pop • EDM • Acoustic</span>
+                <span class="hero-tag">Remote mixing & mastering</span>
+                <span class="hero-tag">Arrangements for live shows</span>
+            </div>
+
+            <div class="hero-buttons">
+                <a class="btn btn-primary" href="#" target="_blank">
+                    <span>▶</span> Listen to demo
+                </a>
+                <a class="btn btn-secondary" href="#contact">
+                    <span>✉</span> Let’s work
+                </a>
+            </div>
+        </div>
+
+        <aside class="hero-card">
+            <div class="hero-card-header">
+                <div>
+                    <div class="hero-card-title">Current focus</div>
+                    <div class="hero-card-line">Mixing artists worldwide from a mobile studio.</div>
+                </div>
+                <div class="hero-card-pill">Online sessions</div>
+            </div>
+
+            <div class="hero-card-line">
+                Clean, punchy and musical mixes that translate on club systems, phones and streaming platforms.
+            </div>
+
+            <div class="hero-card-genres">
+                <span>Pop / Dance</span>
+                <span>EDM</span>
+                <span>Electro-tango</span>
+                <span>Acoustic & live</span>
+            </div>
+
+            <div class="hero-card-footer">
+                <div>Turnaround: 2–5 days*</div>
+                <div class="hero-card-meter">
+                    <div class="hero-card-meter-fill"></div>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-label">About</div>
+        <h2 class="section-title">Who is TimAudioMix?</h2>
+        <p class="section-body">
+            I’m Timofey, musician and artist performing in China and Europe, and a mixing engineer helping artists shape their sound.
+            My background is in classical performance (bayan, accordion, bandoneon) and live shows, which gives me a strong feel for dynamics,
+            groove and emotion in every track.
+            <br><br>
+            I work in a compact but accurate setup, focusing on clarity, punch and musicality rather than just loudness.
+            Whether it’s a club track, pop single or live acoustic recording – the goal is always the same:
+            make your music feel expensive and emotional.
+        </p>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+        <div class="section-label">Services</div>
+        <h2 class="section-title">What I can do for your music</h2>
+        <p class="section-text">
+            Remote work, clear communication, and revisions until your track feels right. Prices depend on project size – contact me for details.
+        </p>
+
+        <div class="cards">
+            <article class="card">
+                <div class="card-title">Mixing & basic mastering</div>
+                <div class="card-tagline">For singles, EPs and demos</div>
+                <p>
+                    Balancing, tone-shaping and space so your track translates on headphones, club PA and streaming.
+                </p>
+                <ul class="card-list">
+                    <li>Vocal & instrument balancing</li>
+                    <li>EQ, compression, saturation</li>
+                    <li>Creative FX, delays & reverbs</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="card-title">Arrangement & production</div>
+                <div class="card-tagline">Turn an idea into a release-ready track</div>
+                <p>
+                    I help shape structure, harmony and sound design while keeping your style and vision.
+                </p>
+                <ul class="card-list">
+                    <li>Chord progressions & layers</li>
+                    <li>Rhythm & groove programming</li>
+                    <li>Production for singers & bands</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="card-title">Live accordion / bandoneon</div>
+                <div class="card-tagline">Real emotion on your track</div>
+                <p>
+                    Recording live bayan or bandoneon lines for your song, soundtrack or performance project.
+                </p>
+                <ul class="card-list">
+                    <li>Melodic lines & solos</li>
+                    <li>Background textures & pads</li>
+                    <li>Custom parts for shows</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio">
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title">Selected work</h2>
+        <p class="section-text">
+            Here are a few examples of projects I’ve worked on. Replace the links with your own tracks on YouTube, Spotify or cloud.
+        </p>
+
+        <div class="portfolio-grid">
+            <div class="track">
+                <div class="track-title">Electro-tango single</div>
+                <div class="track-role">Mixing • Arrangement • Bandoneon</div>
+                <a href="#" target="_blank">Listen to track →</a>
+            </div>
+
+            <div class="track">
+                <div class="track-title">Pop / EDM collab</div>
+                <div class="track-role">Mixing • Vocal production</div>
+                <a href="#" target="_blank">Listen to track →</a>
+            </div>
+
+            <div class="track">
+                <div class="track-title">Live acoustic recording</div>
+                <div class="track-role">Mixing • Editing</div>
+                <a href="#" target="_blank">Listen to track →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Let’s work on your next track</h2>
+
+        <div class="contact-grid">
+            <div class="contact-text">
+                Tell me about your project: style, reference tracks, and what you feel is missing in your current mix.
+                I’ll reply with questions, ideas and an estimate.
+                <br><br>
+                I’m comfortable working in English or Russian, and I regularly collaborate with artists remotely.
+            </div>
+
+            <div class="contact-box">
+                <div class="contact-label">Primary contact</div>
+                <div class="contact-main">
+                    Email me with a short description and links to your demos.
+                </div>
+                <div class="contact-links">
+                    <a href="mailto:sidorchutimal@gmail.com">Email</a>
+                    <a href="#" target="_blank">Fiverr</a>
+                    <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © <span id="year"></span> TimAudioMix. All rights reserved.
+    </footer>
+
+</div>
+
+<script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Smooth scroll for in-page links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            const targetId = this.getAttribute("href").substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: target.offsetTop - 70,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
